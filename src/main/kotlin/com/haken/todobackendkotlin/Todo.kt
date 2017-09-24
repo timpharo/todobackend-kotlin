@@ -1,3 +1,14 @@
 package com.haken.todobackendkotlin
 
-data class Todo(val id: Long, val name: String)
+import javax.persistence.Entity
+import javax.persistence.Id
+
+@Entity
+data class Todo(@Id var id:Long = 0,
+                var title:String = "",
+                var completed:Boolean = false,
+                var url:String = ""){
+
+    constructor(): this(0)
+}
+
