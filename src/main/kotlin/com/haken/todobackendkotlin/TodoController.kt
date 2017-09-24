@@ -33,6 +33,7 @@ class TodoController(val todoRepository: TodoRepository) {
 
         todo.title.let { retrievedTodo.title = it }
         todo.completed.let { retrievedTodo.completed = it }
+        todo.order.let { retrievedTodo.order = it }
 
         return todoRepository.save(retrievedTodo)
     }
