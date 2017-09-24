@@ -14,10 +14,9 @@ class TodoController(val todoRepository: TodoRepository) {
     fun rootGet() : MutableIterable<Todo>? = todoRepository.findAll()
 
     @PostMapping
-    fun postTodo(@RequestBody todo : Todo) : Todo{
+    fun postTodo(@RequestBody todo:Todo) : Todo{
         val newId = counter.getAndIncrement()
         todo.id = newId
-
         todo.url = "${Config.root}/todo/$newId"
         return todoRepository.save(todo)
     }
@@ -26,19 +25,15 @@ class TodoController(val todoRepository: TodoRepository) {
     fun deleteTodo() = todoRepository.deleteAll()
 
     @GetMapping("/todo/{id}")
-    fun getTodo(@PathVariable("id") id : Long) : Todo? = todoRepository.findOne(id)
+    fun getTodo(@PathVariable id:Long) : Todo = todoRepository.findOne(id)
 
     @PatchMapping("/todo/{id}")
-    fun patchTodo(@PathVariable("id") id : Long, @RequestBody todo : Todo) : Todo{
+    fun patchTodo(@PathVariable id:Long, @RequestBody todo:Todo) : Todo {
         val retrievedTodo = todoRepository.findOne(id)
 
-        if(todo.title != "") {
-            retrievedTodo.title = todo.title
-        }
+        todo.title.let { retrievedTodo.title = it }
+        todo.completed.let { retrievedTodo.completed = it }
 
-        if(todo.completed) {
-            retrievedTodo.completed = todo.completed
-        }
         return todoRepository.save(retrievedTodo)
     }
 
