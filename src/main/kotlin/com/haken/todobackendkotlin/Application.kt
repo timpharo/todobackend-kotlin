@@ -9,6 +9,10 @@ class Application
 
 object Config {
     var root: String = "http://localhost:8080"
+
+    init {
+        System.getenv("BASE_URL").let { root = it }
+    }
 }
 
 fun main(args: Array<String>) {
